@@ -27,7 +27,7 @@ class VideoFactory extends Factory
         return [
             'title' => fake()->sentence(),
             'description' => fake()->paragraph(),
-            'thumbnail' => fake()->image(),
+            'thumbnail' => "https://picsum.photos/640/480",
             'video' => fake()->randomElement($videos),
             'user_id' => User::factory(),
         ];
