@@ -12,7 +12,7 @@ class UserController extends Controller
     {
         try {
             return [
-                'data' => $user->load('videos'),
+                'data' => $user,
                 'status' => 'success',
             ];
         } catch (Exception $e) {
