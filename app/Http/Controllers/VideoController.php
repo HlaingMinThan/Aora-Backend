@@ -12,7 +12,6 @@ class VideoController extends Controller
     public function index()
     {
         try {
-            logger(request()->all());
             $query = request('query');
             logger($query . 'logged');
             return [
@@ -49,6 +48,21 @@ class VideoController extends Controller
         try {
             return [
                 'data' => $user->videos()->latest()->get(),
+            ];
+        } catch (Exception $e) {
+            return [
+                'message' => $e->getMessage(),
+                'status' => 'error',
+            ];
+        }
+    }
+
+    public function trending()
+    {
+        try {
+            return [
+                'data' => Video::with('creator')->inRandomOrder()->take(6)->latest()->get(),
+                'status' => 'success',
             ];
         } catch (Exception $e) {
             return [
