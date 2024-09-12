@@ -8,4 +8,5 @@ Route::get('/auth/user', [AuthController::class, 'user'])->middleware('auth:sanc
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::get('/videos', [VideoController::class, 'index']);
+Route::get('/users/{user}/videos', [VideoController::class, 'videos']);
 Route::get('/videos/{video}', [VideoController::class, 'show']);

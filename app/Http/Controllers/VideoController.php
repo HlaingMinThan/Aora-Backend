@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Video;
 use Exception;
 use Illuminate\Http\Request;
@@ -34,6 +35,20 @@ class VideoController extends Controller
             return [
                 'data' => $video->load('creator'),
                 'status' => 'success',
+            ];
+        } catch (Exception $e) {
+            return [
+                'message' => $e->getMessage(),
+                'status' => 'error',
+            ];
+        }
+    }
+
+    public function videos(User $user)
+    {
+        try {
+            return [
+                'data' => $user->videos()->latest()->get(),
             ];
         } catch (Exception $e) {
             return [
