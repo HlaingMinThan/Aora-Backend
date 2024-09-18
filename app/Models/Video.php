@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
+    protected $guarded = ['id'];
     use HasFactory;
 
     public function creator()

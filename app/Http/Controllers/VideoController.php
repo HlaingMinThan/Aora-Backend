@@ -43,6 +43,23 @@ class VideoController extends Controller
         }
     }
 
+    public function store()
+    {
+        $attrs = request()->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'thumbnail' => 'required',
+        ]);
+
+        $attrs['user_id'] = auth()->id();
+        $attrs['video'] = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"; //will use uploaded video later
+
+        return response()->json([
+            'data' => Video::create($attrs),
+            'status' => 'success',
+        ]);
+    }
+
     public function videos(User $user)
     {
         try {
