@@ -14,4 +14,9 @@ class Video extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function alreadyBookmarked()
+    {
+        return auth()->user()->bookmarkedVideos->contains($this->id);
+    }
 }

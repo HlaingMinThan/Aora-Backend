@@ -22,4 +22,19 @@ class UserController extends Controller
             ];
         }
     }
+
+    public function bookmarks()
+    {
+        try {
+            return [
+                'data' => auth()->user()->bookmarkedVideos()->where("title", "like", "%" . request('query') . "%")->get(),
+                'status' => 'success',
+            ];
+        } catch (Exception $e) {
+            return [
+                'message' => $e->getMessage(),
+                'status' => 'error',
+            ];
+        }
+    }
 }

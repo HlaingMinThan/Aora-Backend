@@ -28,11 +28,11 @@ class VideoController extends Controller
         }
     }
 
-    public function show(Video $video)
+    public function checkBookmark(Video $video)
     {
         try {
             return [
-                'data' => $video->load('creator'),
+                'data' => $video->alreadyBookmarked(),
                 'status' => 'success',
             ];
         } catch (Exception $e) {
@@ -64,7 +64,7 @@ class VideoController extends Controller
     {
         try {
             return [
-                'data' => $user->videos()->latest()->get(),
+                'data' => $user->videos()->with('creator')->latest()->get(),
             ];
         } catch (Exception $e) {
             return [

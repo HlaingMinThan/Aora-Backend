@@ -29,7 +29,6 @@ class AuthController extends Controller
                 'password' => 'required',
                 'device_name' => 'required',
             ]);
-
             $user = User::where('email', $request->email)->first();
 
             if (! $user || ! Hash::check($request->password, $user->password)) {
@@ -40,8 +39,12 @@ class AuthController extends Controller
             return $user->createToken($request->device_name)->plainTextToken;
         } catch (ValidationException $e) {
             return response()->json([
-                'message' => $e->getMessage()
+                'errors' => $e->errors()
             ], 422);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 
@@ -62,6 +65,25 @@ class AuthController extends Controller
             $user->save();
 
             return $user->createToken($request->device_name)->plainTextToken;
+        } catch (ValidationException $e) {
+            return response()->json([
+                'errors' => $e->errors()
+            ], 422);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function logout()
+    {
+        try {
+            auth()->user()->tokens()->delete();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Logged out successfully'
+            ]);
         } catch (ValidationException $e) {
             return response()->json([
                 'message' => $e->getMessage()
